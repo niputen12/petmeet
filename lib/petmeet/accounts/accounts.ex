@@ -55,6 +55,9 @@ defmodule Petmeet.Accounts do
     |> Repo.insert()
   end
 
+  def get_pet_by_username(username), do: Repo.get_by!(Pet, username: username)
+
+
   @doc """
   Updates a pet.
 

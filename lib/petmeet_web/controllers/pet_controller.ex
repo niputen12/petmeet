@@ -3,6 +3,7 @@ defmodule PetmeetWeb.PetController do
 
   alias Petmeet.Accounts
   alias Petmeet.Accounts.Pet
+  alias PetmeetWeb.Services.Authenticator
 
   action_fallback PetmeetWeb.FallbackController
 
@@ -38,5 +39,26 @@ defmodule PetmeetWeb.PetController do
     with {:ok, %Pet{}} <- Accounts.delete_pet(pet) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  def authenticate(conn, %{"username" => username, "password" => password}) do
+    case Authenticator.authenticate(username, password) do
+      {:ok, user_and_token} ->
+        render(conn, "user_and_token.json", user_and_token)
+      {:error, lol} ->
+        conn
+          |> put_status(:unauthorized)
+          |> put_view(PetmeetWeb.CustomErrorView)
+          |> render("errors.json", %{
+             errors: [
+               %{
+                 title: "unauthorized",
+                 detail: lol
+               }
+             ]
+           })
+          |> halt()
+    end
+
   end
 end
