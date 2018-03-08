@@ -9,5 +9,6 @@ defmodule PetmeetWeb.Router do
     pipe_through :api
 
     resources "/pets", PetController, except: [:new, :edit]
+    post "/login/auth", PetController, :authenticate
   end
 end
