@@ -4,6 +4,10 @@ defmodule PetmeetWeb.PetController do
   alias Petmeet.Accounts
   alias Petmeet.Accounts.Pet
   alias PetmeetWeb.Services.Authenticator
+  plug (
+  PetmeetWeb.Services.Plugs.TokenCheckerPlug
+    when action in [:index, :show, :update, :delete]
+  )
 
   action_fallback PetmeetWeb.FallbackController
 
