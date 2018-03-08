@@ -2,7 +2,9 @@ defmodule Petmeet.Accounts.Pet do
   use Ecto.Schema
   import Ecto.Changeset
   import Comeonin.Bcrypt
-
+  alias Petmeet.Woofs.Post
+  alias Petmeet.Meows.Comment
+  
   schema "pets" do
     field :breed, :string
     field :encrypted_password, :string
@@ -10,7 +12,8 @@ defmodule Petmeet.Accounts.Pet do
     field :username, :string
     field :email, :string
     field :password, :string, virtual: true
-
+    has_many :posts, Post
+    has_many :comments, Comment
     timestamps()
   end
 

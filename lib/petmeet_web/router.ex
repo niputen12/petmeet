@@ -8,7 +8,13 @@ defmodule PetmeetWeb.Router do
   scope "/api", PetmeetWeb do
     pipe_through :api
 
-    resources "/pets", PetController, except: [:new, :edit]
+    resources "/pets", PetController, except: [:new, :edit] do
+      post "/follow", FollowerController, :create
+    end
     post "/login/auth", PetController, :authenticate
+    resources "/posts", PostController, except: [:new, :edit] do
+      resources "/comments", CommentController, except: [:new, :edit]
+    end
+
   end
 end

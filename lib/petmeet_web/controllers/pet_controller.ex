@@ -20,7 +20,6 @@ defmodule PetmeetWeb.PetController do
     with {:ok, %Pet{} = pet} <- Accounts.create_pet(pet_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", pet_path(conn, :show, pet))
       |> render("show.json", pet: pet)
     end
   end

@@ -10,7 +10,9 @@ defmodule PetmeetWeb.Services.Authenticator do
       pet ->
         if checkpw(password, pet.encrypted_password) do
           token = generate_token(pet)
-          {:ok, %{token: token, pet: pet}}
+          followers = Accounts.get_followers(pet.id)
+          followings = Accounts.get_following(pet.id)
+          {:ok, %{token: token, pet: pet, followers: followers, followings: followings}}
         else
           {:error, "invalid user"}
         end
