@@ -23,8 +23,8 @@ defmodule PetmeetWeb.PetView do
   def render("render_token.json", %{pet: %{pet: pet, token: token, followers: followers, followings: followings}}) do
     %{id: pet.id,
       username: pet.username,
-      who_i_follows: render_many(followings, FollowerView, "follower.json"),
-      who_follows_me: render_many(followers, FollowerView, "follower.json"),
+      who_i_follows: render_many(followings, FollowerView, "followers.json"),
+      who_follows_me: render_many(followers, FollowerView, "followers.json"),
       posts: render_many(pet.posts, PostView, "own_post.json"),
       meta: %{
         token: token

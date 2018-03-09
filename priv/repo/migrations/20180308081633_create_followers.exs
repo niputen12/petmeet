@@ -3,8 +3,11 @@ defmodule Petmeet.Repo.Migrations.CreateFollowers do
 
   def change do
     create table(:followers) do
-      add :user_id, :bigint
-      add :following_id, :bigint
+      # add :pet_id, references(:pets, on_delete: :nothing)
+      # add :followings_id, :integer
+
+      add :pet_id, references(:pets, on_delete: :nothing)
+      add :following_id, references(:pets, on_delete: :nothing)
 
       timestamps()
     end

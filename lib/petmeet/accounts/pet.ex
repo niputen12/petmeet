@@ -4,7 +4,8 @@ defmodule Petmeet.Accounts.Pet do
   import Comeonin.Bcrypt
   alias Petmeet.Woofs.Post
   alias Petmeet.Meows.Comment
-  
+  alias Petmeet.Accounts.Follower
+
   schema "pets" do
     field :breed, :string
     field :encrypted_password, :string
@@ -14,6 +15,8 @@ defmodule Petmeet.Accounts.Pet do
     field :password, :string, virtual: true
     has_many :posts, Post
     has_many :comments, Comment
+    has_many :followers, Follower
+    has_many :followings, Follower
     timestamps()
   end
 

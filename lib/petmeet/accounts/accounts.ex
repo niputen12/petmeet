@@ -58,7 +58,6 @@ defmodule Petmeet.Accounts do
 
   def get_pet_by_username(username), do: Repo.get_by!(Pet, username: username) |> Repo.preload(posts: [comments: :pet])
 
-
   @doc """
   Updates a pet.
 
@@ -137,6 +136,13 @@ defmodule Petmeet.Accounts do
   """
   def get_follower!(id), do: Repo.get!(Follower, id)
 
+  def get_follower_id(id) do
+    Follower
+    |> where([f], f.pet_id == ^id)
+    |> Repo.all()
+    |> Repo.preload(:pet)
+  end
+
   @doc """
   Creates a follower.
 
@@ -149,21 +155,23 @@ defmodule Petmeet.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_follower(following_id , follower_id) do
-    %Follower {following_id: following_id, user_id: follower_id.id}
+  def create_follower(following_id, follower_id) do
+    %Follower{following_id: following_id, pet_id: follower_id.id}
     |> Repo.insert()
   end
 
   def get_following(user_id) do
     Follower
-    |> where([f], f.user_id == ^user_id)
+    |> where([f], f.pet_id == ^user_id)
     |> Repo.all()
+    |> Repo.preload([:pet, :follower])
   end
 
   def get_followers(user_id) do
     Follower
     |> where([f], f.following_id == ^user_id)
     |> Repo.all()
+    |> Repo.preload([:pet, :follower])
   end
 
   @doc """
