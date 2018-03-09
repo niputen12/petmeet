@@ -1,6 +1,6 @@
 defmodule PetmeetWeb.FollowerView do
   use PetmeetWeb, :view
-  alias PetmeetWeb.FollowerView
+  alias PetmeetWeb.{FollowerView, PetView}
 
   def render("index.json", %{followers: followers}) do
     %{data: render_many(followers, FollowerView, "follower.json")}
@@ -12,7 +12,14 @@ defmodule PetmeetWeb.FollowerView do
 
   def render("follower.json", %{follower: follower}) do
     %{id: follower.id,
-      user_id: follower.user_id,
-      following_id: follower.following_id}
+      following_id: follower.following_id
+    }
+  end
+
+  def render("followers.json", %{follower: follower}) do
+    %{id: follower.id,
+      following_id: follower.following_id,
+      name: render_one(follower.follower, PetView, "pet.json")
+    }
   end
 end

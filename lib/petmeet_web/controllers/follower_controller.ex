@@ -14,6 +14,8 @@ defmodule PetmeetWeb.FollowerController do
   end
 
   def create(conn, %{"pet_id" => id}) do
+    # check = Accounts.get_follower_id(conn.assigns.pet.id)
+
     with {:ok, %Follower{} = follower} <- Accounts.create_follower(String.to_integer(id), conn.assigns.pet) do
       conn
       |> put_status(:created)
